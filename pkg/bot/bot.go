@@ -22,7 +22,7 @@ func StartBotFor(commander types.User) *Bot {
 func (bot *Bot) ExecuteCommand(message string) (string, error) {
 	executor, err := bot.AnalyseMessage(message)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("Sorry @%s, I can’t process your request", bot.Commander.Name)
 	}
 	ider, err := executor.Execute()
 	if err != nil {

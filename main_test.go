@@ -17,3 +17,15 @@ func TestCreatePollCommand(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "hey @dandan, poll #1 created", result)
 }
+
+func TestInvalidCreatePollCommand(t *testing.T) {
+	b := bot.StartBotFor(types.User{
+		ID:   "my-user-id",
+		Name: "dandan",
+	})
+	result, err := b.ExecuteCommand("hey @bot create a poll with options: aroma, coffee bean, cafe azaria")
+
+	assert.Error(t, err)
+	assert.Empty(t, result)
+	assert.ErrorContains(t, err, "Sorry @dandan, I can’t process your request")
+}

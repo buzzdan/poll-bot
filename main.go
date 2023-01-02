@@ -1,7 +1,8 @@
 package main
 
 import (
-	"errors"
+	"github.com/buzzdan/poll-bot/pkg/bot"
+	"github.com/buzzdan/poll-bot/pkg/types"
 	"os"
 	"strings"
 )
@@ -20,17 +21,19 @@ import (
 // A user asks: ‘hey @bot, create a poll with options: <option 1>, <option 2>, <option 3>’
 // The bot replies: ‘hey @<username>, poll #1 created.’
 
-func AnalyseMessage(message string) (string, error) {
-	println("got message: " + message)
-	return "", errors.New("not implemented")
-}
-
 func main() {
-	message := strings.Join(os.Args[1:], " ")
-	res, err := AnalyseMessage(message)
+	user := os.Args[1]
+	message := strings.Join(os.Args[2:], " ")
+	b := bot.StartBotFor(types.User{
+		ID:   "my-user-id",
+		Name: user,
+	})
+
+	result, err := b.ExecuteCommand(message)
+
 	if err != nil {
 		println(err.Error())
 		os.Exit(1)
 	}
-	println(res)
+	println(result)
 }
